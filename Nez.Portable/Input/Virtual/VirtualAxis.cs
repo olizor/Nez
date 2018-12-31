@@ -73,7 +73,7 @@ namespace Nez
 			{
 				get
 				{
-					return Mathf.signThreshold( Input.gamePads[gamepadIndex].getLeftStick( deadzone ).X, deadzone );
+					return Input.gamePads[gamepadIndex].getLeftStick( deadzone ).X;
 				}
 			}
 		}
@@ -100,7 +100,7 @@ namespace Nez
 				get
 				{
 					var multiplier = invertResult ? -1 : 1;
-					return multiplier * Mathf.signThreshold( Input.gamePads[gamepadIndex].getLeftStick( deadzone ).Y, deadzone );
+					return multiplier * Input.gamePads[gamepadIndex].getLeftStick( deadzone ).Y;
 				}
 			}
 		}
