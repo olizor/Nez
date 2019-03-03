@@ -331,19 +331,37 @@ namespace Nez
 
 			public override bool isDown
 			{
-				get { return Input.isKeyDown( key ); }
+                get
+                {
+#if DEBUG
+                    if (Console.DebugConsole.instance.isOpen) return false;
+#endif
+                    return Input.isKeyDown( key );
+                }
 			}
 
 
 			public override bool isPressed
 			{
-				get { return Input.isKeyPressed( key ); }
+                get
+                {
+#if DEBUG
+                    if (Console.DebugConsole.instance.isOpen) return false;
+#endif
+                    return Input.isKeyPressed( key );
+                }
 			}
 
 
 			public override bool isReleased
 			{
-				get { return Input.isKeyReleased( key ); }
+                get
+                {
+#if DEBUG
+                    if (Console.DebugConsole.instance.isOpen) return false;
+#endif
+                    return Input.isKeyReleased( key );
+                }
 			}
 		}
 

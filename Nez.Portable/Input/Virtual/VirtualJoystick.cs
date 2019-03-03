@@ -215,9 +215,10 @@ namespace Nez
 			private bool _turnedX;
 			private bool _turnedY;
 			private Vector2 _value;
+            private bool _cancelInput;
 
 
-			public KeyboardKeys( OverlapBehavior overlapBehavior, Keys left, Keys right, Keys up, Keys down )
+            public KeyboardKeys( OverlapBehavior overlapBehavior, Keys left, Keys right, Keys up, Keys down )
 			{
 				this.overlapBehavior = overlapBehavior;
 				this.left = left;
@@ -228,11 +229,15 @@ namespace Nez
 
 
 			public override void update()
-			{
-				//X Axis
-				if( Input.isKeyDown( left ) )
+            {
+                _cancelInput = false;
+#if DEBUG
+                _cancelInput = Console.DebugConsole.instance.isOpen;
+#endif
+                //X Axis
+                if(!_cancelInput && Input.isKeyDown( left ) )
 				{
-					if( Input.isKeyDown( right ) )
+					if(!_cancelInput && Input.isKeyDown( right ) )
 					{
 						switch( overlapBehavior )
 						{
@@ -258,7 +263,7 @@ namespace Nez
 						_value.X = -1;
 					}
 				}
-				else if( Input.isKeyDown( right ) )
+				else if(!_cancelInput && Input.isKeyDown( right ) )
 				{
 					_turnedX = false;
 					_value.X = 1;
@@ -270,9 +275,9 @@ namespace Nez
 				}
 
 				//Y Axis
-				if( Input.isKeyDown( up ) )
+				if(!_cancelInput && Input.isKeyDown( up ) )
 				{
-					if( Input.isKeyDown( down ) )
+					if(!_cancelInput && Input.isKeyDown( down ) )
 					{
 						switch( overlapBehavior )
 						{
@@ -298,7 +303,7 @@ namespace Nez
 						_value.Y = -1;
 					}
 				}
-				else if( Input.isKeyDown( down ) )
+				else if(!_cancelInput && Input.isKeyDown( down ) )
 				{
 					_turnedY = false;
 					_value.Y = 1;

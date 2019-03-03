@@ -210,9 +210,10 @@ namespace Nez
 
 			float _value;
 			bool _turned;
+            private bool _cancelInput;
 
 
-			public KeyboardKeys( OverlapBehavior overlapBehavior, Keys negative, Keys positive )
+            public KeyboardKeys( OverlapBehavior overlapBehavior, Keys negative, Keys positive )
 			{
 				this.overlapBehavior = overlapBehavior;
 				this.negative = negative;
@@ -222,9 +223,13 @@ namespace Nez
 
 			public override void update()
 			{
-				if( Input.isKeyDown( positive ) )
+                _cancelInput = false;
+#if DEBUG
+                _cancelInput = Console.DebugConsole.instance.isOpen;
+#endif
+                if (!_cancelInput && Input.isKeyDown( positive ) )
 				{
-					if( Input.isKeyDown( negative ) )
+					if(!_cancelInput && Input.isKeyDown( negative ) )
 					{
 						switch( overlapBehavior )
 						{
@@ -251,7 +256,7 @@ namespace Nez
 						_value = 1;
 					}
 				}
-				else if( Input.isKeyDown( negative ) )
+				else if(!_cancelInput && Input.isKeyDown( negative ) )
 				{
 					_turned = false;
 					_value = -1;
