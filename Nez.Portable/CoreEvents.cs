@@ -19,7 +19,12 @@ namespace Nez
 		/// <summary>
 		/// fired when the device orientation changes
 		/// </summary>
-		OrientationChanged
+		OrientationChanged,
+
+		/// <summary>
+		/// fired when the game is exiting
+		/// </summary>
+		Exiting
 	}
 
 
@@ -29,17 +34,15 @@ namespace Nez
 	/// </summary>
 	public struct CoreEventsComparer : IEqualityComparer<CoreEvents>
 	{
-		public bool Equals( CoreEvents x, CoreEvents y )
+		public bool Equals(CoreEvents x, CoreEvents y)
 		{
 			return x == y;
 		}
 
 
-		public int GetHashCode( CoreEvents obj )
+		public int GetHashCode(CoreEvents obj)
 		{
-			return (int)obj;
+			return (int) obj;
 		}
 	}
-
 }
-

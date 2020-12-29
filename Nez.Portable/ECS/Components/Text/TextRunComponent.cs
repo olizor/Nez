@@ -6,32 +6,45 @@
 	/// </summary>
 	public class TextRunComponent : RenderableComponent
 	{
-		public override float width { get { return textRun.width; } }
-		public override float height { get { return textRun.height; } }
-		public TextRun textRun;
+		public override float Width => TextRun.Width;
+		public override float Height => TextRun.Height;
 
-
-		public TextRunComponent( TextRun textRun )
+		public TextRun TextRun
 		{
-			this.textRun = textRun;
+			get => _textRun;
+			set
+			{
+				_textRun = value;
+				Compile();
+			}
 		}
 
+		TextRun _textRun;
+
+		public TextRunComponent()
+		{
+		}
+
+		public TextRunComponent(TextRun textRun)
+		{
+			_textRun = textRun;
+			Compile();
+		}
 
 		/// <summary>
 		/// calls through to TextRun.compile and handles marshalling some data between this Component and the underlying TextRun
 		/// </summary>
-		public void compile()
+		public void Compile()
 		{
-			textRun.position = transform.position;
-			textRun.rotation = transform.rotation;
-			textRun.compile();
+			_textRun.Position = Transform.Position;
+			_textRun.Rotation = Transform.Rotation;
+			_textRun.Compile();
 		}
 
-
-		public override void render( Graphics graphics, Camera camera )
+		public override void Render(Batcher batcher, Camera camera)
 		{
-			textRun.render( graphics );
+			if (_textRun != null)
+				_textRun.Render(batcher);
 		}
 	}
 }
-

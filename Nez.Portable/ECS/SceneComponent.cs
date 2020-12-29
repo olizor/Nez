@@ -8,26 +8,25 @@ namespace Nez
 		/// <summary>
 		/// the scene this SceneComponent is attached to
 		/// </summary>
-		public Scene scene;
-	    
+		public Scene Scene;
+
 		/// <summary>
 		/// true if the SceneComponent is enabled. Changes in state result in onEnabled/onDisable being called.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-		public bool enabled
+		public bool Enabled
 		{
-			get { return _enabled; }
-			set { setEnabled( value ); }
+			get => _enabled;
+			set => SetEnabled(value);
 		}
 
 		/// <summary>
 		/// update order of the SceneComponents on this Scene
 		/// </summary>
 		/// <value>The order.</value>
-		public int updateOrder { get { return _updateOrder; } }
+		public int UpdateOrder { get; private set; } = 0;
 
 		bool _enabled = true;
-		int _updateOrder = 0;
 
 
 		#region SceneComponent Lifecycle
@@ -35,29 +34,33 @@ namespace Nez
 		/// <summary>
 		/// called when this SceneComponent is enabled
 		/// </summary>
-		public virtual void onEnabled()
-		{ }
+		public virtual void OnEnabled()
+		{
+		}
 
 
 		/// <summary>
 		/// called when the this SceneComponent is disabled
 		/// </summary>
-		public virtual void onDisabled()
-		{ }
+		public virtual void OnDisabled()
+		{
+		}
 
 
 		/// <summary>
 		/// called when this SceneComponent is removed from the Scene
 		/// </summary>
-		public virtual void onRemovedFromScene()
-		{}
+		public virtual void OnRemovedFromScene()
+		{
+		}
 
 
 		/// <summary>
 		/// called each frame before the Entities are updated
 		/// </summary>
-		public virtual void update()
-		{}
+		public virtual void Update()
+		{
+		}
 
 		#endregion
 
@@ -69,17 +72,18 @@ namespace Nez
 		/// </summary>
 		/// <returns>The enabled.</returns>
 		/// <param name="isEnabled">If set to <c>true</c> is enabled.</param>
-		public SceneComponent setEnabled( bool isEnabled )
+		public SceneComponent SetEnabled(bool isEnabled)
 		{
-			if( _enabled != isEnabled )
+			if (_enabled != isEnabled)
 			{
 				_enabled = isEnabled;
 
-				if( _enabled )
-					onEnabled();
+				if (_enabled)
+					OnEnabled();
 				else
-					onDisabled();
+					OnDisabled();
 			}
+
 			return this;
 		}
 
@@ -89,23 +93,23 @@ namespace Nez
 		/// </summary>
 		/// <returns>The update order.</returns>
 		/// <param name="updateOrder">Update order.</param>
-		public SceneComponent setUpdateOrder( int updateOrder )
+		public SceneComponent SetUpdateOrder(int updateOrder)
 		{
-			if( _updateOrder != updateOrder )
+			if (UpdateOrder != updateOrder)
 			{
-				_updateOrder = updateOrder;
-				Core.scene._sceneComponents.sort();
+				UpdateOrder = updateOrder;
+				Core.Scene._sceneComponents.Sort();
 			}
+
 			return this;
 		}
 
 		#endregion
 
 
-		int IComparable<SceneComponent>.CompareTo( SceneComponent other )
+		int IComparable<SceneComponent>.CompareTo(SceneComponent other)
 		{
-			return _updateOrder.CompareTo( other._updateOrder );
+			return UpdateOrder.CompareTo(other.UpdateOrder);
 		}
-
 	}
 }

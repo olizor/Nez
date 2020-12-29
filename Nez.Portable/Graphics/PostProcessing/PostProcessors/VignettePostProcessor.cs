@@ -1,37 +1,38 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 
 namespace Nez
 {
 	public class VignettePostProcessor : PostProcessor
 	{
-		public float power
+		[Range(0.001f, 10f, 0.001f)]
+		public float Power
 		{
-			get { return _power; }
+			get => _power;
 			set
 			{
-				if( _power != value )
+				if (_power != value)
 				{
 					_power = value;
 
-					if( effect != null )
-						_powerParam.SetValue( _power );
+					if (Effect != null)
+						_powerParam.SetValue(_power);
 				}
 			}
 		}
 
-		public float radius
+		[Range(0.001f, 10f, 0.001f)]
+		public float Radius
 		{
-			get { return _radius; }
+			get => _radius;
 			set
 			{
-				if( _radius != value )
+				if (_radius != value)
 				{
 					_radius = value;
 
-					if( effect != null )
-						_radiusParam.SetValue( _radius );
+					if (Effect != null)
+						_radiusParam.SetValue(_radius);
 				}
 			}
 		}
@@ -42,20 +43,26 @@ namespace Nez
 		EffectParameter _radiusParam;
 
 
-		public VignettePostProcessor( int executionOrder ) : base( executionOrder )
-		{}
-
-
-		public override void onAddedToScene()
+		public VignettePostProcessor(int executionOrder) : base(executionOrder)
 		{
-			effect = scene.content.loadEffect<Effect>( "vignette", EffectResource.vignetteBytes );
-
-			_powerParam = effect.Parameters["_power"];
-			_radiusParam = effect.Parameters["_radius"];
-			_powerParam.SetValue( _power );
-			_radiusParam.SetValue( _radius );
 		}
 
+		public override void OnAddedToScene(Scene scene)
+		{
+			base.OnAddedToScene(scene);
+
+			Effect = scene.Content.LoadEffect<Effect>("vignette", EffectResource.VignetteBytes);
+
+			_powerParam = Effect.Parameters["_power"];
+			_radiusParam = Effect.Parameters["_radius"];
+			_powerParam.SetValue(_power);
+			_radiusParam.SetValue(_radius);
+		}
+
+		public override void Unload()
+		{
+			_scene.Content.UnloadEffect(Effect);
+			base.Unload();
+		}
 	}
 }
-
