@@ -219,6 +219,9 @@ namespace Nez
 
 			public override void Update()
 			{
+#if DEBUG
+				if (Console.DebugConsole.Instance.IsOpen) return;
+#endif
 				//X Axis
 				if (Input.IsKeyDown(Left))
 				{

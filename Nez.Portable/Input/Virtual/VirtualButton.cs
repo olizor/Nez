@@ -334,13 +334,13 @@ namespace Nez
 			}
 
 
-			public override bool IsDown => Input.IsKeyDown(Key);
+			public override bool IsDown => Input.IsKeyDown(Key) && !Console.DebugConsole.Instance.IsOpen;
 
 
-			public override bool IsPressed => Input.IsKeyPressed(Key);
+			public override bool IsPressed => Input.IsKeyPressed(Key) && !Console.DebugConsole.Instance.IsOpen;
 
 
-			public override bool IsReleased => Input.IsKeyReleased(Key);
+			public override bool IsReleased => Input.IsKeyReleased(Key) && !Console.DebugConsole.Instance.IsOpen;
 		}
 
 
