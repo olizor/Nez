@@ -200,7 +200,7 @@ namespace Nez
 					Deadzone = new RectangleF((cameraBounds.Width - w) / 2, (cameraBounds.Height - h) / 2, w, h);
 					break;
 				case CameraStyle.LockOn:
-					Deadzone = new RectangleF(cameraBounds.Width / 2, cameraBounds.Height / 2, 10, 10);
+					Deadzone = new RectangleF((cameraBounds.Width * Camera.RawZoom) / 2, (cameraBounds.Height * Camera.RawZoom) / 2, 10, 10);
 					break;
 			}
 		}
